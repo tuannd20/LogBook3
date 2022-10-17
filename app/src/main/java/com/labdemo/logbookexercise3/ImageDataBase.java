@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 public class ImageDataBase extends SQLiteOpenHelper {
 
     private final Context context;
-    private static final  int DATABASE_VERSION = 1;
+    private static final  int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "Image_URL.db";
 
     private static final String TABLE_IMAGE = "ImageURL";
