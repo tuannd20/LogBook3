@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Exercise 3</string>
+    <string name="btn_backward">Backward</string>
+    <string name="btn_forward">Forward</string>
+    <string name="input_url">URL</string>
+    <string name="btn_add_url">Add Image</string>
+</resources>
