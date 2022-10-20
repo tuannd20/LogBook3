@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     TextInputLayout input_url_image;
     ArrayList<String> imageUrlList;
     int countImageUrl;
+    int currentImage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +42,17 @@ public class MainActivity extends AppCompatActivity {
         imageDataBase = new ImageDataBase(this);
 
         getAllImage();
-        countImageUrl = imageUrlList.size();
-        Log.i("value", String.valueOf(countImageUrl));
-        if (imageUrlList.size() == 0) {
-            Glide.with(MainActivity.this).load("https://img.freepik.com/free-vector/no-data-concept-illustration_114360-536.jpg?w=2000").into(view_image_item);
-        } else {
-            Glide.with(MainActivity.this).load(imageUrlList.get(1)).into(view_image_item);
-        }
-        input_url_image.getEditText().setText("https://vn-live-02.slatic.net/p/1e627bd5ff074cc9aaf42fb779869590.jpg");
+//        countImageUrl = imageUrlList.size();
+        getImageItem(currentImage);
+
+        backward_btn.setOnClickListener(this::renderImageWhenOnclick);
+        forward_btn.setOnClickListener(this::renderImageWhenOnclick);
+//        if (imageUrlList.size() == 0) {
+//            Glide.with(MainActivity.this).load("https://img.freepik.com/free-vector/no-data-concept-illustration_114360-536.jpg?w=2000").into(view_image_item);
+//        } else {
+//            Glide.with(MainActivity.this).load(imageUrlList.get(1)).into(view_image_item);
+//        }
+        input_url_image.getEditText().setText("https://img1.kienthucvui.vn/uploads/2020/03/17/hinh-anh-hoat-hinh-3d-de-thuong-cho-dien-thoai_123431706.jpg");
         handleInsertImageUrl();
     }
 
@@ -62,8 +66,25 @@ public class MainActivity extends AppCompatActivity {
         } else {
             while (cursor.moveToNext()) {
                 imageUrlList.add(cursor.getString(1));
+//                cursor.moveToNext();
+                countImageUrl = imageUrlList.size();
             }
         }
+    }
+
+    private void renderImageWhenOnclick(View view) {
+        if (view == forward_btn) {
+            currentImage++;
+            if (currentImage == imageUrlList.size()) {
+                currentImage = 0;
+            }
+        } else {
+            if (currentImage == 0) {
+                currentImage = imageUrlList.size();
+            }
+            currentImage--;
+        }
+        getImageItem(currentImage);
     }
 
     private void handleInsertImageUrl() {
@@ -86,5 +107,9 @@ public class MainActivity extends AppCompatActivity {
     private void addImageUrl(String url) {
         ImageDataBase db = new ImageDataBase(this);
         db.addNewImageUrl(url);
+    }
+
+    public void getImageItem(int value) {
+        Glide.with(MainActivity.this).load(imageUrlList.get(value)).into(view_image_item);
     }
 }
